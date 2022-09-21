@@ -1,2 +1,2 @@
-# sintIA_consultas
-SINTIA: avisos de actualizaciones en recursos de datos abiertos
+# SINTIA
+SintIA: avisos sobre actualizaciones de recursos del Ministerio de Desarrollo Productivo
