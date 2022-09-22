@@ -6,10 +6,10 @@ library(ckanr)
 library(tidyverse)
 library(telegram.bot)
 
-users <- c(Sys.getenv("ID_JUAN"),
-           Sys.getenv("ID_MICA"),
-           Sys.getenv("ID_TUQ"),
-           Sys.getenv("ID_ELIAN"))
+users <- c(as.numeric(Sys.getenv("ID_JUAN")),
+           as.numeric(Sys.getenv("ID_MICA")),
+           as.numeric(Sys.getenv("ID_TUQ")),
+           as.numeric(Sys.getenv("ID_ELIAN")))
 
 token <- Sys.getenv("TOKEN_BOT")
 
@@ -18,7 +18,7 @@ bot <- Bot(token = token)
 ### SETUP PORTAL 
 ckanr_setup(url = "https://datos.produccion.gob.ar/")
 
-### CONSULTA RECURSO
+### CONSULTA DE RECURSOS
 actualizado <- read_csv("./01-rscript/actualizacion.csv") %>% 
   select(id, old_date = last_date)
 
@@ -28,18 +28,26 @@ consulta3 <- resource_show("7cc294dd-ae7e-4fc5-902b-2872e7c6226a")
 consulta4 <- resource_show("169245ff-f050-4601-9cea-aa36ef2d7f20")
 consulta5 <- resource_show("abf8d248-d9b3-450d-a0b7-6df2a21da0b2")
 
+ckanr_setup(url = "https://datos.gob.ar/")
+consulta6 <- resource_show("sspm_11.3")
+consulta7 <- resource_show("sspm_143.3")
+
 consultas <- data.frame(
-  id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id),
-  name = c(consulta1$name, consulta2$name, consulta3$name, consulta4$name, consulta5$name),
-  url = c(consulta1$url, consulta2$url, consulta3$url, consulta4$url, consulta5$url)
-  )
+  id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id,
+         consulta6$id,  consulta7$id),
+  name = c(consulta1$name, consulta2$name, consulta3$name, consulta4$name, consulta5$name,
+           consulta6$name,  consulta7$name),
+  url = c(consulta1$url, consulta2$url, consulta3$url, consulta4$url, consulta5$url,
+          consulta6$url,  consulta7$url)
+)
 
 last_date <- c()
 
 for (i in 1:nrow(consultas)) {
   row <- consultas[i,]
   
-  recurso <- read.csv(row$url)
+  recurso <- read.csv(row$url) %>% 
+    rename(fecha = 1)
   
   last_date <- append(last_date, max(recurso$fecha))
 }
