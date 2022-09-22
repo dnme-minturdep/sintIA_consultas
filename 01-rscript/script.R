@@ -9,6 +9,7 @@ library(telegram.bot)
 users <- c(as.numeric(Sys.getenv("ID_JUAN")),
            as.numeric(Sys.getenv("ID_MICA")),
            as.numeric(Sys.getenv("ID_TUQ")),
+           as.numeric(Sys.getenv("ID_JUANGA")),
            as.numeric(Sys.getenv("ID_ELIAN")))
 
 token <- Sys.getenv("TOKEN_BOT")
