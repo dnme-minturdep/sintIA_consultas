@@ -15,7 +15,7 @@ token <- Sys.getenv("TOKEN_BOT")
 
 bot <- Bot(token = token)
 
-### SETUP PORTAL 
+### SETUP PORTAL I
 ckanr_setup(url = "https://datos.produccion.gob.ar/")
 
 ### CONSULTA DE RECURSOS
@@ -28,17 +28,23 @@ consulta3 <- resource_show("7cc294dd-ae7e-4fc5-902b-2872e7c6226a")
 consulta4 <- resource_show("169245ff-f050-4601-9cea-aa36ef2d7f20")
 consulta5 <- resource_show("abf8d248-d9b3-450d-a0b7-6df2a21da0b2")
 
+
+### SETUP PORTAL II
 ckanr_setup(url = "https://datos.gob.ar/")
+
+### CONSULTA DE RECURSOS
 consulta6 <- resource_show("sspm_11.3")
 consulta7 <- resource_show("sspm_143.3")
+consulta8 <- resource_show("sspm_145.3")
+consulta9 <- resource_show("sspm_145.1")
 
 consultas <- data.frame(
   id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id,
-         consulta6$id,  consulta7$id),
+         consulta6$id,  consulta7$id,  consulta8$id,  consulta9$id),
   name = c(consulta1$name, consulta2$name, consulta3$name, consulta4$name, consulta5$name,
-           consulta6$name,  consulta7$name),
+           consulta6$name,  consulta7$name,  consulta8$name,  consulta9$name),
   url = c(consulta1$url, consulta2$url, consulta3$url, consulta4$url, consulta5$url,
-          consulta6$url,  consulta7$url)
+          consulta6$url,  consulta7$url, consulta8$url,  consulta9$url)
 )
 
 last_date <- c()
@@ -73,7 +79,8 @@ novedades <- function(bot) {
       bot$sendMessage(chat_id = o,
                       text = paste0("[",check$name,"](",check$url,")"), parse_mode = "markdown")
       
-      
+      bot$sendAnimation(chat_id = o, animation = "bot_happy.gif")
+               
     } else if (NROW(check) > 1) {
       
       bot$sendMessage(chat_id = o,
