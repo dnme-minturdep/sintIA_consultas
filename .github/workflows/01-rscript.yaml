@@ -22,6 +22,7 @@ jobs:
           ID_JUAN: ${{ secrets.ID_JUAN }}
           ID_MICA: ${{ secrets.ID_MICA }}
           ID_TUQ: ${{ secrets.ID_TUQ }}
+          ID_JUANGA: ${{ secrets.ID_JUANGA }}
           ID_ELIAN: ${{ secrets.ID_ELIAN }}
         run: |
           Rscript "01-rscript/script.R"
