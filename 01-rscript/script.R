@@ -80,7 +80,7 @@ novedades <- function(bot) {
       bot$sendMessage(chat_id = o,
                       text = paste0("[",check$name,"](",check$url,")"), parse_mode = "markdown")
       
-      bot$sendAnimation(chat_id = o, animation = "bot_happy.gif")
+      bot$sendAnimation(chat_id = o, animation = sample(list.files("./01-rscript/gifs/", full.names = T),1))
                
     } else if (NROW(check) > 1) {
       
@@ -99,7 +99,7 @@ novedades <- function(bot) {
       
       Sys.sleep(1)
       
-      bot$sendAnimation(chat_id = o, animation = "bot_happy.gif")
+      bot$sendAnimation(chat_id = o, animation = sample(list.files("./01-rscript/gifs/", full.names = T),1))
       
     } else {
        NULL
