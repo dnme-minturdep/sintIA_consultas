@@ -45,8 +45,9 @@ consultas <- data.frame(
   name = c(consulta1$name, consulta2$name, consulta3$name, consulta4$name, consulta5$name,
            consulta6$name,  consulta7$name,  consulta8$name,  consulta9$name),
   url = c(consulta1$url, consulta2$url, consulta3$url, consulta4$url, consulta5$url,
-          consulta6$url,  consulta7$url, consulta8$url,  consulta9$url)
-)
+          consulta6$url,  consulta7$url, consulta8$url,  consulta9$url),
+  emoji = c("🔴","🟡","🟠","🔵","🟢","🟤","🟣","⚫","⚪")
+  )
 
 last_date <- c()
 
@@ -62,7 +63,7 @@ for (i in 1:nrow(consultas)) {
 consultas$last_date <- as.Date(last_date)
 
 check <- consultas %>% 
-  left_join(actualizado, by =  "id") %>% 
+  left_join(actualizado, by =  c("id","emoji")) %>% 
   filter(last_date > old_date) %>% 
   select(-old_date)
 
@@ -71,6 +72,7 @@ write_csv(consultas, "./01-rscript/actualizacion.csv", append = F)
 # FUNCION DE AVISO
 novedades <- function(bot) {
   
+  
   for (o in users) {
     
     if (NROW(check) == 1) {
@@ -78,10 +80,9 @@ novedades <- function(bot) {
                       text = "Buenas datistas! 🤓 Se actualizó este recurso:")
       
       bot$sendMessage(chat_id = o,
-                      text = paste0("[",check$name,"](",check$url,")"), parse_mode = "markdown")
+                      text = paste0(check$emoji," [",check$name,"](",check$url,")"), parse_mode = "markdown")
       
-      bot$sendAnimation(chat_id = o, animation = sample(list.files("./01-rscript/gifs/", full.names = T),1))
-               
+      
     } else if (NROW(check) > 1) {
       
       bot$sendMessage(chat_id = o,
@@ -92,7 +93,7 @@ novedades <- function(bot) {
         send <- check[i,]
         
         bot$sendMessage(chat_id = o,
-                        text = paste0("[",send$name,"](",send$url,")"), parse_mode = "markdown")
+                        text = paste0(send$emoji," [",send$name,"](",send$url,")"), parse_mode = "markdown")
         
         Sys.sleep(1)
       }
@@ -110,4 +111,3 @@ novedades <- function(bot) {
 }
 
 novedades(bot)
-
