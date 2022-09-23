@@ -45,8 +45,7 @@ consultas <- data.frame(
   name = c(consulta1$name, consulta2$name, consulta3$name, consulta4$name, consulta5$name,
            consulta6$name,  consulta7$name,  consulta8$name,  consulta9$name),
   url = c(consulta1$url, consulta2$url, consulta3$url, consulta4$url, consulta5$url,
-          consulta6$url,  consulta7$url, consulta8$url,  consulta9$url),
-  emoji = c("🔴","🟡","🟠","🔵","🟢","🟤","🟣","⚫","⚪")
+          consulta6$url,  consulta7$url, consulta8$url,  consulta9$url)
   )
 
 last_date <- c()
@@ -63,9 +62,12 @@ for (i in 1:nrow(consultas)) {
 consultas$last_date <- as.Date(last_date)
 
 check <- consultas %>% 
-  left_join(actualizado, by =  c("id","emoji")) %>% 
+  left_join(actualizado, by = "id") %>% 
   filter(last_date > old_date) %>% 
   select(-old_date)
+
+consultas <- consultas %>% 
+  left_join(actualizado[,c("id","emoji")])
 
 write_csv(consultas, "./01-rscript/actualizacion.csv", append = F)
 
