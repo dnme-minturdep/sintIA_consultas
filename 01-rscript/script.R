@@ -21,7 +21,7 @@ ckanr_setup(url = "https://datos.produccion.gob.ar/")
 
 ### CONSULTA DE RECURSOS
 actualizado <- read_csv("./01-rscript/actualizacion.csv") %>% 
-  select(id, old_date = last_date)
+  select(id, emoji, old_date = last_date)
 
 consulta1 <- resource_show("4dffd59a-cc8c-4c9f-a76f-652f8bbe978d")
 consulta2 <- resource_show("b1c16b3a-51fd-4e61-9ef4-42716721d3b8")
