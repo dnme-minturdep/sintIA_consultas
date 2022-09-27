@@ -1,7 +1,7 @@
 on:
   schedule:
-    - cron:  "30 12,16,19 * * 1,2,3,4,5"
-    - cron:  "0 21 * * 1,2,3,4,5"
+    - cron: "30 12,16,19 * * 1,2,3,4,5"
+    - cron: "0 21 * * 1,2,3,4,5"
   workflow_dispatch:
 
 name: 01-rscript
