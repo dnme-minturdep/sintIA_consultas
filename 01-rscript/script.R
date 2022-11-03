@@ -1,6 +1,7 @@
 install.packages("ckanr")
 install.packages("tidyverse")
 install.packages("telegram.bot")
+install.packages("RCurl")
 
 library(ckanr)
 library(tidyverse)
@@ -53,7 +54,9 @@ last_date <- c()
 for (i in 1:nrow(consultas)) {
   row <- consultas[i,]
   
-  recurso <- read.csv(row$url) %>% 
+  url <- RCurl::getURL(row$url, ssl.verifypeer = FALSE)
+
+  recurso <- read.csv(textConnection(url)) %>%
     rename(fecha = 1)
   
   last_date <- append(last_date, max(recurso$fecha))
