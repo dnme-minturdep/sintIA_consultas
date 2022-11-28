@@ -7,23 +7,26 @@ library(ckanr)
 library(tidyverse)
 library(telegram.bot)
 
+### Traigo IDs de users desde Github secrets
 users <- c(as.numeric(Sys.getenv("ID_JUAN")),
            as.numeric(Sys.getenv("ID_MICA")),
            as.numeric(Sys.getenv("ID_TUQ")),
            as.numeric(Sys.getenv("ID_JUANGA")),
            as.numeric(Sys.getenv("ID_ELIAN")))
 
+### Traigo token de API Telegram
 token <- Sys.getenv("TOKEN_BOT")
 
 bot <- Bot(token = token)
 
-### SETUP PORTAL I
+### Defino portal de datos I a consultar
 ckanr_setup(url = "https://datos.produccion.gob.ar/")
 
-### CONSULTA DE RECURSOS
+### Levanto estado actual de los recursos
 actualizado <- read_csv("./01-rscript/actualizacion.csv") %>% 
   select(id, emoji, old_date = last_date)
 
+### Traigo metadata de los recursos con ckanr
 consulta1 <- resource_show("4dffd59a-cc8c-4c9f-a76f-652f8bbe978d")
 consulta2 <- resource_show("b1c16b3a-51fd-4e61-9ef4-42716721d3b8")
 consulta3 <- resource_show("7cc294dd-ae7e-4fc5-902b-2872e7c6226a")
@@ -31,15 +34,17 @@ consulta4 <- resource_show("169245ff-f050-4601-9cea-aa36ef2d7f20")
 consulta5 <- resource_show("abf8d248-d9b3-450d-a0b7-6df2a21da0b2")
 
 
-### SETUP PORTAL II
+### Defino portal de datos II a consultar
 ckanr_setup(url = "https://datos.gob.ar/")
 
-### CONSULTA DE RECURSOS
+
+### Traigo metadata de los recursos con ckanr
 consulta6 <- resource_show("sspm_11.3")
 consulta7 <- resource_show("sspm_143.3")
 consulta8 <- resource_show("sspm_145.3")
 consulta9 <- resource_show("sspm_145.1")
 
+### Armo estructura data.frame
 consultas <- data.frame(
   id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id,
          consulta6$id,  consulta7$id,  consulta8$id,  consulta9$id),
@@ -49,6 +54,8 @@ consultas <- data.frame(
           consulta6$url,  consulta7$url, consulta8$url,  consulta9$url)
   )
 
+
+### Guardo última fecha de los recursos
 last_date <- c()
 
 for (i in 1:nrow(consultas)) {
@@ -64,6 +71,7 @@ for (i in 1:nrow(consultas)) {
 
 consultas$last_date <- as.Date(last_date)
 
+### Filtro registros de recursos que se hayan actualizado
 check <- consultas %>% 
   left_join(actualizado, by = "id") %>% 
   filter(last_date > old_date) %>% 
@@ -72,9 +80,10 @@ check <- consultas %>%
 consultas <- consultas %>% 
   left_join(actualizado[,c("id","emoji")])
 
+### Guardo csv con estado de los recursos
 write_csv(consultas, "./01-rscript/actualizacion.csv", append = F)
 
-# FUNCION DE AVISO
+### Genero función de aviso a users internos
 novedades <- function(bot) {
   
   
@@ -115,4 +124,5 @@ novedades <- function(bot) {
   
 }
 
+### Envío mensaje a users
 novedades(bot)
