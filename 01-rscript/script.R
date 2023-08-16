@@ -100,6 +100,9 @@ novedades <- function(bot) {
       bot$sendMessage(chat_id = o,
                       text = paste0(check$emoji," [",check$name,"](",check$url,")"), parse_mode = "markdown")
 
+      Sys.sleep(1)
+
+      bot$sendAnimation(chat_id = o, animation = sample(list.files("./01-rscript/gifs/", full.names = T),1))
 
     } else if (NROW(check) > 1) {
 
