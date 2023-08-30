@@ -10,7 +10,6 @@ library(telegram.bot)
 ### Traigo IDs de users desde Github secrets
 users <- c(as.numeric(Sys.getenv("ID_JUAN")),
            as.numeric(Sys.getenv("ID_MICA")),
-           as.numeric(Sys.getenv("ID_TUQ")),
            as.numeric(Sys.getenv("ID_JUANGA")),
            as.numeric(Sys.getenv("ID_ELIAN")))
 
