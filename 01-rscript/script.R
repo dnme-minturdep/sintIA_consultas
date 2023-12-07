@@ -10,7 +10,7 @@ library(telegram.bot)
 ### Traigo IDs de users desde Github secrets
 users <- c(as.numeric(Sys.getenv("ID_JUAN")),
            as.numeric(Sys.getenv("ID_MICA")),
-           as.numeric(Sys.getenv("ID_JUANGA")),
+           #as.numeric(Sys.getenv("ID_JUANGA")),
            as.numeric(Sys.getenv("ID_ELIAN")))
 
 ### Traigo token de API Telegram
@@ -61,9 +61,9 @@ last_date <- c()
 for (i in 1:nrow(consultas)) {
   row <- consultas[i,]
 
-  url <- RCurl::getURL(row$url, ssl.verifypeer = FALSE)
+  #url <- RCurl::getURL(row$url, ssl.verifypeer = FALSE)
 
-  recurso <- read.csv(textConnection(url)) %>%
+  recurso <- read.csv(row$url) %>%
     rename(fecha = 1)
 
   last_date <- append(last_date, max(recurso$fecha))
