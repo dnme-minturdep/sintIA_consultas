@@ -43,7 +43,7 @@ consulta6 <- resource_show("sspm_11.3")
 consulta7 <- resource_show("sspm_143.3")
 consulta8 <- resource_show("sspm_145.3")
 consulta9 <- resource_show("sspm_145.1")
-
+print(consulta9)
 ### Armo estructura data.frame
 consultas <- data.frame(
   id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id,
