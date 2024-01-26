@@ -10,7 +10,6 @@ library(telegram.bot)
 ### Traigo IDs de users desde Github secrets
 users <- c(as.numeric(Sys.getenv("ID_JUAN")),
            as.numeric(Sys.getenv("ID_MICA")),
-           #as.numeric(Sys.getenv("ID_JUANGA")),
            as.numeric(Sys.getenv("ID_ELIAN")))
 
 ### Traigo token de API Telegram
@@ -43,7 +42,7 @@ consulta6 <- resource_show("sspm_11.3")
 consulta7 <- resource_show("sspm_143.3")
 consulta8 <- resource_show("sspm_145.3")
 consulta9 <- resource_show("sspm_145.1")
-print(consulta9)
+
 ### Armo estructura data.frame
 consultas <- data.frame(
   id = c(consulta1$id, consulta2$id, consulta3$id, consulta4$id, consulta5$id,
